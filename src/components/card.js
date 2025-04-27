@@ -1,11 +1,11 @@
-import { openImagePopup } from "./modal.js";
+import { openImagePopup } from "../scripts/index.js";
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 export const cardList = document.querySelector('.places__list');
 
 // @todo: Функция создания карточки
-export function createCard(link, name, handleLike) {
+export function createCard(link, name, handleLike, openImagePopup) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
   const cardName = cardElement.querySelector('.card__title');

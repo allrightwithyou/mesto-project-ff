@@ -38,34 +38,4 @@ export const addPopupListeners = (popupElement) => {
   });
 };
 
-// Функция для открытия попапа по клику
-export const handleOpenPopup = (popupSelector) => {
-  const popup = document.querySelector(popupSelector);
-  if (popup) {
-    openModal(popup);
-  }
-};
-// Функция для открытия попапа с изображением
-export function openImagePopup(imageUrl, caption) {
-  const popupImage = document.querySelector('.popup__image');
-  const popupCaption = document.querySelector('.popup__caption');
 
-  popupImage.src = imageUrl;
-  popupCaption.textContent = caption;
-  popupImage.alt = caption;
-  handleOpenPopup('.popup_type_image');
-}
-// Получаем попапы
-export const popupEdit = document.querySelector('.popup_type_edit');
-export const popupNewCard = document.querySelector('.popup_type_new-card');
-const imagePopup = document.querySelector('.popup_type_image');
-
-// Добавляем слушателей на попапы
-addPopupListeners(popupEdit);
-addPopupListeners(popupNewCard);
-addPopupListeners(imagePopup);
-
-// Открытие попапа для добавления нового места
-document.querySelector('.profile__add-button').addEventListener('click', () => {
-  handleOpenPopup('.popup_type_new-card');
-});
