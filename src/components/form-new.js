@@ -1,7 +1,7 @@
-import { closeModal } from "./popup";
-import { createCard, handleLike, cardList } from "./card";
+import { closeModal, popupNewCard } from "./modal.js";
+import { createCard, handleLike, cardList } from "./card.js";
 
-const popupNewCard = document.querySelector('.popup_type_new-card');
+
 const popupNewCardForm = popupNewCard.querySelector('.popup__form');
 popupNewCardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();

@@ -1,10 +1,9 @@
 
-import { handleOpenPopup, closeModal } from "./popup";
+import { handleOpenPopup, closeModal, popupEdit} from "./modal.js";
 
 // Находим элементы на странице
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
-const popupEdit = document.querySelector('.popup_type_edit');
 const popupNameInput = popupEdit.querySelector('.popup__input_type_name');
 const popupDescriptionInput = popupEdit.querySelector('.popup__input_type_description');
 const popupForm = popupEdit.querySelector('.popup__form');

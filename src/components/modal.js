@@ -56,13 +56,16 @@ export function openImagePopup(imageUrl, caption) {
   handleOpenPopup('.popup_type_image');
 }
 // Получаем попапы
-const profileEditPopup = document.querySelector('.popup_type_edit');
-const cardAddPopup = document.querySelector('.popup_type_new-card');
+export const popupEdit = document.querySelector('.popup_type_edit');
+export const popupNewCard = document.querySelector('.popup_type_new-card');
 const imagePopup = document.querySelector('.popup_type_image');
 
 // Добавляем слушателей на попапы
-addPopupListeners(profileEditPopup);
-addPopupListeners(cardAddPopup);
+addPopupListeners(popupEdit);
+addPopupListeners(popupNewCard);
 addPopupListeners(imagePopup);
 
-
+// Открытие попапа для добавления нового места
+document.querySelector('.profile__add-button').addEventListener('click', () => {
+  handleOpenPopup('.popup_type_new-card');
+});

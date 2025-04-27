@@ -1,4 +1,4 @@
-import { openImagePopup } from "./popup";
+import { openImagePopup } from "./modal.js";
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
