@@ -10,7 +10,7 @@ initialCards.forEach(function(element) {
   const name = element.name;
   
   // Создаем карточку
-  const cardElement = createCard(link, name, handleLike,openImagePopup);
+  const cardElement = createCard(link, name, handleLike,handleImageClick, deleteCard);
 
   
 
@@ -28,8 +28,8 @@ export const handleOpenPopup = (popupSelector) => {
     openModal(popup);
   }
 };
-// Функция для открытия попапа с изображением
-export function openImagePopup(imageUrl, caption) {
+// Функция для открытия попапа с изображением handleImageClick
+export function handleImageClick(imageUrl, caption) {
   const popupImage = document.querySelector('.popup__image');
   const popupCaption = document.querySelector('.popup__caption');
 
@@ -101,7 +101,7 @@ popupNewCardForm.addEventListener('submit', function (evt) {
   const imageLink = popupNewCardForm.querySelector('.popup__input_type_url').value;
 
   // Создаем новую карточку
-  const newCard = createCard(imageLink, placeName, handleLike);
+  const newCard = createCard(imageLink, placeName, handleLike,handleImageClick, deleteCard);
   // Добавляем новую карточку в начало списка
   cardList.prepend(newCard);
 
@@ -110,4 +110,7 @@ popupNewCardForm.addEventListener('submit', function (evt) {
   popupNewCardForm.reset();
 });
 
-
+// @todo: Функция удаления карточки
+function deleteCard(cardElement) {
+  cardList.removeChild(cardElement);
+}

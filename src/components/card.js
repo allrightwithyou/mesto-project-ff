@@ -1,11 +1,11 @@
-import { openImagePopup } from "../scripts/index.js";
+
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 export const cardList = document.querySelector('.places__list');
 
 // @todo: Функция создания карточки
-export function createCard(link, name, handleLike, openImagePopup) {
+export function createCard(link, name, handleLike, handleImageClick, deleteCard) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
   const cardName = cardElement.querySelector('.card__title');
@@ -20,25 +20,16 @@ export function createCard(link, name, handleLike, openImagePopup) {
   cardLink.alt = name;
   cardName.textContent = name;
 
-  // Получаем картинку карточки и добавляем обработчик клика
-  const cardImage = cardElement.querySelector('.card__image');
+  cardLink.addEventListener('click', () => handleImageClick(link, name));
+  
 
-  // Добавляем обработчик клика на картинку, чтобы открыть попап с изображением
-  cardImage.addEventListener('click', () => {
-    openImagePopup(link, name); // Передаем ссылку на изображение и название
+  
+  deleteButton.addEventListener('click', () => {
+    deleteCard(cardElement);  // Вызываем переданный обработчик для удаления
   });
-
-  deleteButton.addEventListener('click', function () {
-    deleteCard(cardElement);
-  });
-
   return cardElement;
 }
 
-// @todo: Функция удаления карточки
-function deleteCard(cardElement) {
-  cardList.removeChild(cardElement);
-}
 
 // Обработчик для лайка
 export function handleLike(evt) {
