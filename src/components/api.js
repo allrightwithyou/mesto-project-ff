@@ -28,6 +28,8 @@ export function getInitialCards() {
     return res.json();
   });
 }
+
+// Отправить данные профиля
 export function updateUserProfile(name, about) {
   return fetch(`https://nomoreparties.co/v1/${cohortId}/users/me`, {
     method: 'PATCH',
@@ -45,6 +47,7 @@ export function updateUserProfile(name, about) {
   });
 }
 
+// Отправить данные карточки
 export function addNewCard(name, link) {
   return fetch(`https://nomoreparties.co/v1/${cohortId}/cards`, {
     method: 'POST',
@@ -62,6 +65,7 @@ export function addNewCard(name, link) {
   });
 }
 
+// Удалить карточку
 export function deleteCardFromServer(cardId) {
   return fetch(`https://nomoreparties.co/v1/${cohortId}/cards/${cardId}`, {
     method: 'DELETE',
@@ -74,8 +78,6 @@ export function deleteCardFromServer(cardId) {
     return Promise.reject(`Ошибка: ${res.status}`);
   });
 }
-
-
 
 // Поставить лайк
 export function likeCard(cardId) {
@@ -100,6 +102,24 @@ export function unlikeCard(cardId) {
       authorization: token
     }
   }).then(res => {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  });
+}
+
+// Отправить аватарку
+export function updateAvatar(avatarUrl) {
+  return fetch(`https://nomoreparties.co/v1/${cohortId}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: {
+      authorization: token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ avatar: avatarUrl })
+  })
+  .then(res => {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
