@@ -1,9 +1,7 @@
-import { likeCard, unlikeCard } from './api.js';
-
 const cardTemplate = document.querySelector('#card-template').content;
 export const cardList = document.querySelector('.places__list');
 
-export function createCard(link, name, handleImageClick, deleteCard, cardId, ownerId, userId, likes = []) {
+export function createCard(link, name, handleImageClick,handleLike, deleteCard, cardId, ownerId, userId, likes = []) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
   const cardName = cardElement.querySelector('.card__title');
@@ -29,21 +27,18 @@ export function createCard(link, name, handleImageClick, deleteCard, cardId, own
 
   // Обработчик лайка
   likeButton.addEventListener('click', () => {
-    const currentlyLiked = likeButton.classList.contains('card__like-button_is-active');
-    const action = currentlyLiked ? unlikeCard : likeCard;
-
-    action(cardId)
-      .then(updatedCard => {
-        likeButton.classList.toggle('card__like-button_is-active');
-        likeCount.textContent = updatedCard.likes.length;
-      })
-      .catch(err => console.error('Ошибка при изменении лайка:', err));
+    handleLike(cardId, likeButton, likeCount);
   });
 
   // Обработчик удаления
   deleteButton.addEventListener('click', () => {
     deleteCard(cardElement, cardId);
   });
+
+  // Скрываем кнопку удаления, если карточка чужая
+  if (ownerId !== userId) {
+    deleteButton.style.display = 'none';
+  }
 
   return cardElement;
 }

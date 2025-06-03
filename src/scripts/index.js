@@ -3,7 +3,7 @@ import '../pages/index.css';
 import { createCard, cardList} from '../components/card.js';
 import { openModal, addPopupListeners, closeModal } from '../components/modal.js';
 import { enableValidation, clearValidation } from '../components/validation.js';
-import { getUserInfo, getInitialCards, updateUserProfile, addNewCard, deleteCardFromServer, updateAvatar} from '../components/api.js';
+import { likeCard, unlikeCard, getUserInfo, getInitialCards, updateUserProfile, addNewCard, deleteCardFromServer, updateAvatar} from '../components/api.js';
 
 let userId;
 
@@ -25,7 +25,18 @@ export function handleImageClick(imageUrl, caption) {
   handleOpenPopup('.popup_type_image');
 }
 
+ // Обработчик лайка
+  export function handleLike(cardId, likeButton, likeCount) {
+  const currentlyLiked = likeButton.classList.contains('card__like-button_is-active');
+  const action = currentlyLiked ? unlikeCard : likeCard;
 
+  action(cardId)
+    .then(updatedCard => {
+      likeButton.classList.toggle('card__like-button_is-active');
+      likeCount.textContent = updatedCard.likes.length;
+    })
+    .catch(err => console.error('Ошибка при изменении лайка:', err));
+}
 
 
 // Открытие попапа для добавления нового места
@@ -77,6 +88,7 @@ function renderCards(cards, userId) {
       card.link,
       card.name,
       handleImageClick,
+      handleLike,
       deleteCard,
       card._id,
       card.owner._id,
@@ -84,13 +96,6 @@ function renderCards(cards, userId) {
       card.likes
     );
 
-    // Скрываем кнопку удаления, если карточка чужая
-    if (card.owner._id !== userId) {
-      const deleteButton = cardElement.querySelector('.card__delete-button');
-      if (deleteButton) {
-        deleteButton.style.display = 'none';
-      }
-    }
     cardList.append(cardElement);
   });
 }
@@ -130,16 +135,17 @@ popupNewCardForm.addEventListener('submit', function (evt) {
   const originalText = submitButton.textContent;
   submitButton.textContent = 'Сохранение...';
   addNewCard(placeName, imageLink)
-    .then(cardData => {
+    .then(card => {
       const newCard = createCard(
-        cardData.link,
-        cardData.name,
-        handleLike,
+        card.link,
+        card.name,
         handleImageClick,
+        handleLike,
         deleteCard,
-        cardData._id,
-        cardData.owner._id,
-        userId 
+        card._id,
+        card.owner._id,
+        userId,
+        card.likes
       );
       cardList.prepend(newCard);
 
